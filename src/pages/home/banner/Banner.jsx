@@ -7,9 +7,7 @@ import wave1 from '../../../assets/Stacked Wave (1).svg';
 import font from '../../../assets/n.png';
 import font2 from '../../../assets/for.png';
 import { FaAngleRight, FaArrowRight } from 'react-icons/fa';
-import Navbar from '../../shared/navbar/Navbar';
-import Navbar2 from '../../shared/navbar/Navbar2';
-import Navbar3 from '../../shared/navbar/Navbar3';
+import Navbar3 from '../../shared/navbar/Navbar';
 import '../../../index.css';
 
 
@@ -81,7 +79,7 @@ const Banner = () => {
                             <div className="justify-start   ml-0 w-[100%] text-white  ">
                                 
                                 <div className='bg-[#3e4456] bg-opacity-80 w-2/4 pl-20 h-[650px]'>
-                                    <Navbar3></Navbar3>
+                                    {/* <Navbar3></Navbar3> */}
                                     <div className='pt-48 flex'>
                                         <div className='border-0 pb-2  border-[#FACF0E] border-l-8 mt-1 mb-2'></div>
                                         <h1 className="text-animation px-8 roboto uppercase leading-[60px] mon text-5xl font-  ">Looking
@@ -111,7 +109,7 @@ const Banner = () => {
                             <div className="hero-overlay bg-black bg-opacity-30"></div>
                             <div className="justify-start   ml-0 w-[100%] text-white  ">
                                 <div className='bg-[#3e4456]  bg-opacity-80 w-2/4 pl-20 h-[650px]'>
-                                    <Navbar3></Navbar3>
+                                    {/* <Navbar3></Navbar3> */}
                                     <div className='pt-48 flex'>
                                         <div className='border-0 pb-2  border-[#FACF0E] border-l-8 mt-1 mb-2'></div>
                                             <h1 className="text-animation Big px-8 roboto uppercase leading-[60px] mon text-5xl font-  ">
@@ -144,7 +142,7 @@ const Banner = () => {
                             <div className="justify-start   ml-0 w-[100%] text-white  ">
                                 
                                 <div className='bg-[#3e4456] bg-opacity-80 w-2/4 pl-20 h-[650px]'>
-                                    <Navbar3></Navbar3>
+                                    {/* <Navbar3></Navbar3> */}
                                         <div className='pt-48 flex'>
                                         <div className='border-0 pb-2  border-[#FACF0E] border-l-8 mt-1 mb-2'></div>
                                         <h1 className="text-animation px-8 roboto uppercase leading-[60px] mon text-5xl font-  ">

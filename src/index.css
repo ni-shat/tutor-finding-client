@@ -41,6 +41,7 @@
     font-family: 'Lexend Peta', sans-serif;
     font-weight: 700;
 }
+
 .maven {
     font-family: 'Maven Pro', sans-serif;
     font-weight: 500;
@@ -67,7 +68,7 @@
     animation: zoomInOut 2s infinite;
 }
 
-@keyframes zoomInOut {
+/* @keyframes zoomInOut {
 
     0%,
     100% {
@@ -77,7 +78,38 @@
     50% {
         transform: scale(1.2);
     }
+} */
+
+
+.custom-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    /* animation: moveDown 0.s forwards, fadeIn 0.3s 2s ease-in-out forwards; */
+    animation: moveDown 0.8s 1.3s forwards;
 }
+
+@keyframes moveDown {
+    0% {
+        top: -40px;
+    }
+
+    100% {
+        top: 0px;
+        opacity: 1;
+        /* Adjust this value to set how far the navbar should move down */
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 
 
 
