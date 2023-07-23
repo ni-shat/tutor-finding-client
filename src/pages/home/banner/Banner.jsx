@@ -30,7 +30,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 
-import { Fade, Slide } from "react-awesome-reveal";
+
 
 
 

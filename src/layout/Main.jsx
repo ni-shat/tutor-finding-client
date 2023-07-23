@@ -4,7 +4,7 @@ import Navbar from "../pages/shared/navbar/Navbar";
 
 const Main = () => {
     return (
-        <div>
+        <div className="bg-white">
             <Navbar></Navbar>
             <Outlet></Outlet>
         </div>

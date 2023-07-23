@@ -1,4 +1,5 @@
 import Main from "../layout/Main";
+import BecomeATutor from "../pages/become-a-tutor/BecomeATutor";
 import Home from "../pages/home/home/Home";
 
 
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home></Home>
+            },
+            {
+                path: 'become-a-tutor',
+                element: <BecomeATutor></BecomeATutor>
             }
         ]
     },
