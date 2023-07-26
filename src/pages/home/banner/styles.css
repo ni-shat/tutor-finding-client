@@ -98,16 +98,27 @@ body {
   opacity: 0;
   transition: transform 1s ease 0.2s, opacity 0.2s ease 0.2s; /* Add a delay of 1s to the transitions */
 }
+.text-p-animation {
+  transform: translateY(140%);
+  opacity: 0;
+  transition: transform 0.7s ease 1s, opacity 0.2s ease 1s; /* Add a delay of 1s to the transitions */
+}
 
 .swiper-slide-active .text-animation {
   transform: translateX(0);
   opacity: 1;
 }
 
+.swiper-slide-active .text-p-animation {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
 .button-animation {
   opacity: 0;
   transform: translateY(200%);
-  transition: transform 0.6s ease 1s, opacity 0.2s ease 1s; /* Add a delay of 1s to the transitions */
+  transition: transform 0.6s ease 1.7s, opacity 0.2s ease 1.7s; /* Add a delay of 1s to the transitions */
 }
 
 .swiper-slide-active .button-animation {

@@ -61,7 +61,7 @@ const Banner = () => {
                 // freeMode={true}
                 mousewheel={true}
                 autoplay={{
-                    delay: 4100,
+                    delay: 5500,
                     disableOnInteraction: false,
                 }}
                 pagination={{
@@ -90,7 +90,7 @@ const Banner = () => {
 
                                     <div className='flex gap-3  mb-14 mt-6 text-base  '>
                                         <div>
-                                            <h1 className="text-animation animate__animated animate__fadeInLeft text-base font-medium roboto-normal">"Discover  <span className='text-primary'>Expert Private Tutors </span>in Your Area and Ace Your Education"</h1>
+                                            <h1 className="text-p-animation text-base font-medium roboto-normal">"Discover  <span className='text-primary'>Expert Private Tutors </span>in Your Area and Ace Your Education"</h1>
                                         </div>
                                     </div>
                                     <button
@@ -119,7 +119,7 @@ const Banner = () => {
 
                                     <div className='flex gap-3  mb-14 mt-6 text-base  '>
                                         <div>
-                                            <h1 className="text-animation text-base font-medium roboto-normal">"Connecting Students with  <span className='text-primary'>Skilled Online </span>Tutors"</h1>
+                                            <h1 className="text-p-animation text-base font-medium roboto-normal">"Connecting Students with  <span className='text-primary'>Skilled Online </span>Tutors"</h1>
                                         </div>
                                     </div>
                                     <button
@@ -153,7 +153,7 @@ const Banner = () => {
                                     <div className='flex gap-3  mb-14 mt-6 text-base  '>
                                       
                                         <div>
-                                            <h1 className="text-animation text-base font-medium roboto-normal">"Empowering Students through <span className='text-primary'>Personalized</span> Education"</h1>
+                                            <h1 className="text-p-animation text-base font-medium roboto-normal">"Empowering Students through <span className='text-primary'>Personalized</span> Education"</h1>
                                         </div>
                                         
                                     </div>

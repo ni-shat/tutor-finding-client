@@ -14,6 +14,10 @@
     font-weight: 600;
 }
 
+.robo {
+    font-family: 'Roboto', sans-serif;
+}
+
 .roboto-semi-bold {
     font-family: 'Roboto', sans-serif;
     font-weight: 800;
@@ -60,6 +64,10 @@
     font-weight: 500;
 }
 
+.mave {
+    font-family: 'Maven Pro', sans-serif;
+}
+
 .maven-300 {
     font-family: 'Maven Pro', sans-serif;
     font-weight: 300;
@@ -71,6 +79,10 @@
 
 .text-primary {
     color: #FACF0E;
+}
+
+.theme-blue {
+    color: #1e326e;
 }
 
 
@@ -105,7 +117,7 @@
     left: 0;
     opacity: 0;
     /* animation: moveDown 0.s forwards, fadeIn 0.3s 2s ease-in-out forwards; */
-    animation: moveDown 0.8s 1.3s forwards;
+    animation: moveDown 0.8s 2.2s forwards;
 }
 
 @keyframes moveDown {
