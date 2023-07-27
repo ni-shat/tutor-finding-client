@@ -43,7 +43,7 @@ const Navbar3 = () => {
     return (
         <div>
 
-            <div className={`${(location.pathname == ('/')) ? 'bg-transparent' : 'bg-black'}  z-10 w-full roboto-semi custom-nav`}>
+            <div className={`${(location.pathname == ('/')) ? 'bg-transparent' : 'bg-black'}  z-50 w-full roboto-semi custom-nav`}>
                 {/* daisy ui navbar */}
                 <div className='w-[95%] mx-auto flex items-center'>
                     <div className="navbar text-white">

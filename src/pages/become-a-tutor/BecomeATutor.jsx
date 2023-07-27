@@ -2,15 +2,21 @@ import apply_bg from '../../assets/apply-bg.jpg';
 import { FaAngleRight } from "react-icons/fa";
 import { Parallax } from 'react-parallax';
 import { Link } from 'react-router-dom';
+import useSubNav from '../../hooks/useSubNav';
 
 
 const BecomeATutor = () => {
+
+    const subNav = useSubNav('Become a Tutor');
+
+
     return (
-        <div className=" relative top-16 ">
+        <div className=" relative  ">
 
 
+            {subNav}
 
-            <header className=" bg-gray-100 ">
+            {/* <header className=" bg-gray-100 ">
                 <div className='w-[94%] py-4 text-xs roboto-normal-500 mx-auto flex justify-between'>
                     <div>
                         <p className='text-[#1e326e] uppercase'>Become a Tutor</p>
@@ -21,12 +27,12 @@ const BecomeATutor = () => {
                         <p className='text-gray-700'>Become a Tutor</p>
                     </div>
                 </div>
-            </header>
+            </header> */}
 
 
 
             {/* main section start */}
-            <main className="pt-20">
+            <main className="relative pt-36">
 
                 {/* Main Heading */}
                 <section>
@@ -103,15 +109,15 @@ const BecomeATutor = () => {
 
                                     <button className='flex items-center gap-2 mave text-2xl rounded-full  pl-7 pr-4 py-3.5 font-extrabold shadow-2xl shadow-[#000000] bg-[#1e326e] text-white transition-all duration-500 z-10'><span>Apply Now</span><FaAngleRight className='mt-1.5' /></button>
 
-
+                                    <Link to='/register'>
                                     <button className='flex items-center gap-x-2 mave text-2xl rounded-full bg-primary  pl-7 pr-4 py-3.5 text-white font-extrabold shadow-2xl shadow-[#000000] absolute top-2 
                                     hover:bg-black  transition-all duration-500 ease-in-out bg-gradient-to-r from-[#1e326e] to-[#7189d0] 
                                     '>
                                         {/* [#7189d0] */}
                                         <span>Apply Now</span>
                                         <span><FaAngleRight className='mt-1.5' /></span>
-                                        {/*  */}
                                     </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -147,8 +153,8 @@ const BecomeATutor = () => {
 
 
             </main>
-            
-           
+
+
             {/* w-[85%] mx-auto  */}
         </div>
     );
