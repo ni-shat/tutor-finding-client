@@ -3,10 +3,12 @@ import e from '../../../assets/e1.png'
 import icon from '../../../assets/icon.png'
 import { BiLogIn, BiLogInCircle } from "react-icons/bi";
 import Login from '../../login/Login';
+import { useState } from 'react';
 
 const Navbar3 = () => {
 
     const location = useLocation();
+    console.log(location.state);
 
     const navItems = [
         {
@@ -39,6 +41,14 @@ const Navbar3 = () => {
         //     title: "Become A Tutor",
         // },
     ]
+
+    const [isModalOpen, setModalOpen] = useState(true);
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+    const openModal = () => {
+        setModalOpen(true);
+    };
 
 
     return (
@@ -85,10 +95,15 @@ const Navbar3 = () => {
                             {/* <Link className='flex items-center font-extrabold text-sm border- px-4 py-2  bg-[#FACF0E]  text-black text- shadow-lg shadow-black  '>Become A Tutor</Link> */}
 
 
-                            <label htmlFor="my-modal-3" className="flex items-center gap-1 hover:text-[#FACF0E] "> <BiLogInCircle className='text-base ' /> Login</label>
-                            <Login></Login>
-
+                            <label htmlFor="my-modal-3" className="flex items-center gap-1 hover:text-[#FACF0E] hover:cursor-pointer "> <BiLogInCircle className='text-base ' /> Login</label>
+                            {
+                                isModalOpen && <Login setModalOpen={setModalOpen} closeModal={closeModal} openModal={openModal}></Login>
                             
+                            }
+                            
+                            
+
+
                         </div>
                     </div>
                 </div>

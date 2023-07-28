@@ -1,21 +1,76 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import yDot from './yellow-dots-login.svg'
 import gDot from './green-dots-login.svg'
+import { useContext } from 'react';
+import { AuthContext } from '../../providers/AuthProvider';
+import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { BeatLoader } from 'react-spinners';
 
-const Login = () => {
+const Login = ({ closeModal, openModal }) => {
 
-  const func = (event) => {
-    console.log(event.target)
-  }
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setError] = useState("");
+  const { signIn, updateUserProfile, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  console.log(location.state)
+
+  const from = location.state?.from?.pathname || "/";
+
+  const modalCheckboxRef = useRef(null);
+
+
+  const onSubmit = data => {
+
+    // setIsLoading(true);
+    console.log(data)
+    signIn(data.email, data.password)
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+        reset();
+        setIsLoading(false);
+        Swal.fire({
+          position: 'top-middle',
+          icon: 'success',
+          title: 'User Login successful.',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        // closeModal();
+        modalCheckboxRef.current.checked = false;
+        navigate(from, { replace: true });
+      })
+      .catch(error => {
+        setIsLoading(false); // Set loading back to false if there's an error during login
+        console.log(error.message);
+        const updatedErrorMessage = error.message.replace("Firebase: ", "")
+        setError(updatedErrorMessage)
+      });
+  };
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const resetForm = () => {
+    setTimeout(() => {
+      reset();
+      setError(false);
+      setIsLoading(false);
+    }, 1000); // 1 second delay
+  };
 
 
   return (
-    <div className=''>
-      
+    <div >
 
-      {/* <!-- Put this part before tag --> */}
-      <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+      <input type="checkbox" id="my-modal-3" className="modal-toggle" ref={modalCheckboxRef} />
       <div className="modal p-0">
         <div className="modal-box relative max-h-max max-w-max h-auto p-1 m-0">
           {/* <!-- contents --> */}
@@ -24,7 +79,7 @@ const Login = () => {
               <div className="
                       w-[525px]
                       mx-auto
-                      text-center
+                      
                       bg-white
                       rounded-lg
                       relative
@@ -35,15 +90,17 @@ const Login = () => {
                       md:px-[60px]
                       ">
                 <label htmlFor="my-modal-3"
-                  className="btn btn-sm btn-circle bg-[#1e326e] border-0 absolute left-0 top-0 z-10 text-white">✕</label>
+                  onClick={resetForm}
+                  className="btn btn-sm btn-circle bg-[#1e326e] border-0 absolute left-0 top-0 z-10 text-white">✕
+                </label>
                 <div className="mb-10 -mt-1 md:mb-14 text-center w-3/5 mx-auto">
                   <a href="javascript:void(0)" className="inline-block w-full mx-auto">
                     <img src="logo-logo.png" alt="logo" />
                   </a>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="mb-6">
-                    <input type="text" placeholder="Email" className="
+                    <input type="text" {...register("email", { required: true })} placeholder="Email" className="
                                w-full
                                rounded-md
                                border
@@ -51,15 +108,16 @@ const Login = () => {
                                py-3
                                px-5
                                bg-white
-                               text-base text-body-color
+                               text-black font-normal
                                placeholder-[#ACB6BE]
                                outline-none
                                focus-visible:shadow-none
                                focus:border-teal-600
                                " />
+                    {errors.email && <span className="text-red-600 font-normal">Email is required</span>}
                   </div>
-                  <div className="mb-6">
-                    <input type="password" placeholder="Password" className="
+                  <div className="mb-6 relative">
+                    <input type={passwordVisible ? 'text' : 'password'} {...register("password", { required: true })} placeholder="Password" className="
                                w-full
                                rounded-md
                                border
@@ -67,31 +125,33 @@ const Login = () => {
                                py-3
                                px-5
                                bg-[#FCFDFE]
-                               text-base text-body-color
+                               text-black font-normal
                                placeholder-[#ACB6BE]
                                outline-none
                                focus-visible:shadow-none
                                focus:border-[#1e326e]
                                " />
+                    <FaEye onClick={togglePasswordVisibility} className={`${passwordVisible ? 'absolute' : 'hidden'} absolute top-2/4 -translate-y-2 right-4 text-black hover:cursor-pointer`} />
+                    <FaEyeSlash onClick={togglePasswordVisibility} className={`${passwordVisible ? 'hidden' : 'absolute'} top-2/4 -translate-y-2 right-4 text-black hover:cursor-pointer`} />
+                    {errors.password && <span className="text-red-600 font-normal ">Password is required</span>}
                   </div>
-                  <div className="mb-10">
-                    <input type="submit" value="Sign In" className="
-                               w-full
-                               rounded-md
-                               border
-                               bordder-primary
-                               py-3
-                               px-5
-                               bg-[#1e326e]
-                               text-base text-white
-                               cursor-pointer
-                               hover:bg-opacity-90
-                              
+                  <div className="mb-10 relative">
+                    <input type="submit" value={isLoading ? "Signing..." : "Sign in"} disabled={isLoading} className="
+                               w-full disabled:bg-opacity-40 
+                               bg-[#1e326e] rounded-md
+                               border bordder-primary
+                               hover:cursor-pointer hover:bg-opacity-40
                                transition
-                               " />
+                               py-3
+                               px-5"
+                    />
+                    {
+                      isLoading && <BeatLoader className='absolute top-2/4 -translate-y-2.5 right-20 ' color="#FFFFFF" />
+                    }
+                    {isError ? <p className="text-red-600 font-normal mt-1 -mb-3 pl-1">{isError}</p> : <></>}
                   </div>
                 </form>
-                <p className="text-base mb-6 text-gray-500 font-normal">Connect With</p>
+                <p className="text-base mb-6 text-gray-500 font-normal text-center">Connect With</p>
                 <ul className="flex justify-between -mx-2 mb-12">
                   <li className="px-2 w-full">
                     <a href="javascript:void(0)" className="
@@ -148,22 +208,22 @@ const Login = () => {
                     </a>
                   </li>
                 </ul>
-                <a href="javascript:void(0)" className="
+                <Link className="
                          text-base
-                         inline-block
-                         mb-2
-                         text-gray-500 font-normal
+                         
+                         mb-2  flex justify-center
+                         text-gray-500 font-normal 
                          hover:underline hover:text-[#1e326e]
                          ">
                   Forget Password?
-                </a>
-                <p className="text-base text-gray-500 font-normal">
+                </Link>
+                <p className="text-base text-gray-500 font-normal text-center">
                   Not a member yet? <Link to='/register' className="text-[#1e326e] font-semibold hover:underline"> Sign Up
                   </Link>
                 </p>
                 <div>
                   <span className="absolute top-1 right-1">
-                   <img src={yDot} alt="" />
+                    <img src={yDot} alt="" />
                   </span>
                   <span className="absolute left-1 bottom-1">
                     <img src={gDot} alt="" />

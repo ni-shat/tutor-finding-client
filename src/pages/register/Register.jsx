@@ -283,8 +283,8 @@ const Register = () => {
                                                 })}
                                                 placeholder="Password" id="conPass" className="border placeholder-gray-400 focus:outline-none focus:border-black w-full py-3.5 pr-4 pl-4 mt-2 ml-0 text-base block bg-white  border-gray-300 " />
 
-                                            <FaEye onClick={togglePasswordVisibility} className={`${passwordVisible ? 'absolute' : 'hidden'} absolute top-2/4 -translate-y-2 right-4`} />
-                                            <FaEyeSlash onClick={togglePasswordVisibility} className={`${passwordVisible ? 'hidden' : 'absolute'} top-2/4 -translate-y-2 right-4`} />
+                                            <FaEye onClick={togglePasswordVisibility} className={`${passwordVisible ? 'absolute' : 'hidden'} absolute top-2/4 -translate-y-2 right-4 hover:cursor-pointer`} />
+                                            <FaEyeSlash onClick={togglePasswordVisibility} className={`${passwordVisible ? 'hidden' : 'absolute'} top-2/4 -translate-y-2 right-4 hover:cursor-pointer`} />
                                             {errors.password?.type === 'required' && <p className="text-red-600 px-1">Password is required</p>}
                                             {errors.confirmPassword?.type === 'validate' && <p className="text-red-600 px-1">{errors.confirmPassword.message}</p>}
                                         </div>
