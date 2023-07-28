@@ -50,15 +50,12 @@ const Banner = () => {
     return (
         // <div>
 
-        <div className='h-[500px]'>
+        <div className='h-[700px]'>
             <Swiper
-                // direction={"vertical"}
-                // spaceBetween={30}
                 effect={"fade"}
                 centeredSlides={true}
                 slidesPerView={1}
                 spaceBetween={30}
-                // freeMode={true}
                 mousewheel={true}
                 autoplay={{
                     delay: 5500,
@@ -67,20 +64,18 @@ const Banner = () => {
                 pagination={{
                     clickable: true,
                 }}
-                // onSlideChangeTransitionEnd={handleSlideChange}
-                // navigation={true}
                 modules={[Autoplay, Pagination, Navigation, EffectFade, Mousewheel]}
                 className="mySwiper"
             >
                 <SwiperSlide>
-                    <div className='bg-white h-[650px] w-full relative'>
+                    <div className='bg-slate-300 h-[700px] w-full relative'>
                         <div className="hero h-full mt-0 bg-[url('/b2.jpg')]">
                             <div className="hero-overlay bg-black bg-opacity-30"></div>
                             <div className="justify-start   ml-0 w-[100%] text-white  ">
                                 
-                                <div className='bg-[#3e4456] bg-opacity-80 w-2/4 pl-20 h-[650px]'>
+                                <div className='bg-[#3e4456] bg-opacity-80 w-2/4 pl-20 h-[700px]'>
                                     {/* <Navbar3></Navbar3> */}
-                                    <div className='pt-48 flex'>
+                                    <div className='pt-[235px] flex'>
                                         <div className='border-0 pb-2  border-[#FACF0E] border-l-8 mt-1 mb-2'></div>
                                         <h1 className="text-animation px-8 roboto uppercase leading-[60px] mon text-5xl font-  ">Looking
                                             For a
@@ -104,13 +99,13 @@ const Banner = () => {
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className='bg-white relative'>
-                        <div className="hero h-[650px] mt-0 bg-[url('/bg-online.jpg')]">
+                    <div className='bg-slate-300 relative'>
+                        <div className="hero h-[700px] mt-0 bg-[url('/bg-online.jpg')]">
                             <div className="hero-overlay bg-black bg-opacity-30"></div>
                             <div className="justify-start   ml-0 w-[100%] text-white  ">
-                                <div className='bg-[#3e4456]  bg-opacity-80 w-2/4 pl-20 h-[650px]'>
+                                <div className='bg-[#3e4456]  bg-opacity-80 w-2/4 pl-20 h-[700px]'>
                                     {/* <Navbar3></Navbar3> */}
-                                    <div className='pt-48 flex'>
+                                    <div className='pt-[235px] flex'>
                                         <div className='border-0 pb-2  border-[#FACF0E] border-l-8 mt-1 mb-2'></div>
                                             <h1 className="text-animation Big px-8 roboto uppercase leading-[60px] mon text-5xl font-  ">
                                                 Find the Right Online Tutor
@@ -135,15 +130,15 @@ const Banner = () => {
 
 
                 <SwiperSlide>
-                    <div className='bg-white relative'>
-                        <div className="hero h-[650px] mt-0 bg-[url('/b3.jpg')]">
+                    <div className='bg-slate-300 relative'>
+                        <div className="hero h-[700px] mt-0 bg-[url('/b3.jpg')]">
                             <div className="hero-overlay bg-black bg-opacity-30"></div>
                            
                             <div className="justify-start   ml-0 w-[100%] text-white  ">
                                 
-                                <div className='bg-[#3e4456] bg-opacity-80 w-2/4 pl-20 h-[650px]'>
+                                <div className='bg-[#3e4456] bg-opacity-80 w-2/4 pl-20 h-[700px]'>
                                     {/* <Navbar3></Navbar3> */}
-                                        <div className='pt-48 flex'>
+                                        <div className='pt-[235px] flex'>
                                         <div className='border-0 pb-2  border-[#FACF0E] border-l-8 mt-1 mb-2'></div>
                                         <h1 className="text-animation px-8 roboto uppercase leading-[60px] mon text-5xl font-  ">
                                             One-on-One Tutoring

@@ -85,6 +85,10 @@
     color: #1e326e;
 }
 
+.font-medium-custom {
+    font-weight: 900px;
+}
+
 
 .container {
     display: flex;

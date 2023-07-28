@@ -13,37 +13,110 @@ import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const img_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD_TOKEN;
 
 
 const Register = () => {
 
+    const subNav = useSubNav('Register');
     const [selectedFile, setSelectedFile] = useState(null);
-    const [selectedItem, setSelectedItem] = useState(''); // State to keep track of the selected item
+    const [selectedItem, setSelectedItem] = useState(''); // keep track of the selected dropdown item
     const [isOpen, setIsOpen] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [selectedOption, setSelectedOption] = useState("As Student");
 
-    const subNav = useSubNav('Register');
     const { createUser, updateUserProfile, user } = useContext(AuthContext);
     const navigate = useNavigate();
-    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
 
+    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
     const { register, handleSubmit, reset, formState: { errors }, watch } = useForm();
     const password = watch('password');
-    
+
 
     const onSubmit = data => {
         data['gender'] = selectedItem;
+        data['photoURL'] = selectedFile;
+        if (selectedOption === 'As Student') data['role'] = 'Student';
+        else data['role'] = 'Tutor';
+
         console.log(data)
-        
+
         const formData = new FormData();
-        formData.append('image', data.photoURL[0]);
+        // console.log(data.photoURL[0])
+        formData.append('image', data.photoURL); // image is a property in formData
         console.log(img_hosting_url)
+        // console.log(formData)
+
+        fetch(img_hosting_url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(imgResponse => {
+
+                console.log(imgResponse);
+
+                // if (imgResponse.success) {
+                let imgURL;
+                if (imgResponse.success) {
+                    imgURL = imgResponse.data.display_url;
+                } else {
+                    imgURL = "";
+                }
+
+                // firebase creating user via email
+                createUser(data.email, data.password)
+                    .then(result => {
+                        const loggedUser = result.user;
+                        console.log(loggedUser);
+
+                        // update user
+                        updateUserProfile(data.name, imgURL)
+                            .then(() => {
+                                const saveUser = {
+                                    name: data.name,
+                                    email: data.email,
+                                    userImage: imgURL,
+                                    role: data.role || "",
+                                    phone: data.phone || "",
+                                    gender: data.gender || ""
+                                }
+                                // after updating post data into DB
+                                fetch(`http://localhost:5000/users?email=${data.email}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'content-type': 'application/json'
+                                    },
+                                    body: JSON.stringify(saveUser)
+                                })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        if (data.insertedId) {
+                                            reset();
+                                            Swal.fire({
+                                                position: 'top-end',
+                                                icon: 'success',
+                                                title: 'User created successfully.',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            });
+                                            navigate('/');
+                                        }
+                                    })
+                                // end posting data into DB
+                            })
+                    })
+                // }
+
+            })
+
     };
 
 
     const handleFileChange = (event) => {
+        console.log(event.target.files[0])
         const file = event.target.files[0];
         setSelectedFile(file);
     };
@@ -58,6 +131,10 @@ const Register = () => {
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
+    };
+
+    const handleRadioChange = (event) => {
+        setSelectedOption(event.target.value);
     };
 
 
@@ -88,18 +165,18 @@ const Register = () => {
 
                                 <div className="flex gap-4 w-full mb-1">
                                     {/* <!-- as tutor --> */}
-                                    <div className="flex items-center border rounded-full px-5 py-3 w-[40%]  space-x-3">
-                                        <input id="default-radio-1" type="radio" value="" name="default-radio"
-                                            className="w-4 h-4 text-slate-50 bg-gray-100 border-gray-300 hover:cursor-pointer focus:ring-slate-50 dark:focus:ring-slate-50 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label className="ml-2 font-medium text-gray-600 text-xl">As Tutor</label>
-                                    </div>
-
+                                    <label className="flex gap-3.5 items-center border rounded-full px-5 py-3 w-[35%] hover:cursor-pointer ml-2 font-medium text-gray-600 text-xl">
+                                        <input type="radio" checked={selectedOption === "As Tutor"} onChange={handleRadioChange} name="default-radio" value="As Tutor"
+                                            className="w-4 h-4 text-slate-50  border-gray-300 hover:cursor-pointer focus:ring-slate-50 dark:focus:ring-slate-50 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 bg-slate-300" />
+                                        <p className='-mt-[3px]'>As Tutor</p>
+                                    </label>
                                     {/* <!-- as student --> */}
-                                    <div className="flex items-center border rounded-full px-5 py-3 w-[40%]  space-x-3">
-                                        <input checked id="default-radio-2" type="radio" value="" name="default-radio"
+                                    <label className="
+                                        flex items-center gap-3.5 border rounded-full px-5 py-3 w-[35%] hover:cursor-pointer ml-2 font-medium text-gray-600 text-xl">
+                                        <input type="radio" checked={selectedOption === "As Student"} onChange={handleRadioChange} name="default-radio" value="As Student"
                                             className="w-4 h-4 text-slate-50 bg-gray-100 border-gray-300 hover:cursor-pointer focus:ring-slate-50 dark:focus:ring-slate-50 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label className="ml-2 font-medium text-gray-600 text-xl">As Gurdian</label>
-                                    </div>
+                                        <p className='-mt-[3px]'>As Student</p>
+                                    </label>
                                 </div>
                                 {/* <!-- as tutor, as gurdian end --> */}
 
@@ -124,7 +201,6 @@ const Register = () => {
                                             </div>
                                             <div className="w-2/4">
                                                 <p className="bg-white pr-2 pl-2 -mt-1.5 ml-2 font-medium text-gray-600 absolute">Mobile
-                                                    {/* <span className="text-red-600 px-1">*</span> */}
                                                 </p>
                                                 <input type="text" {...register("phone", {
                                                     pattern: /(^(\+88|0088)?(01){1}[3456789]{1}(\d){8})$/
@@ -138,9 +214,10 @@ const Register = () => {
                                         <div className="flex gap-5 mb-7">
                                             <div className="w-2/4 relative">
                                                 <p className="bg-white pr-2 pl-2 -mt-1.5 ml-2 font-medium text-gray-600 absolute z-10">Photo
-                                                    {/* <span className="text-red-600 px-1">*</span> */}
                                                 </p>
-                                                <input {...register("photoURL", { required: true })} type="file" className="absolute top-[7.7px] inset-0 opacity-0 z-10 hover:cursor-pointer border placeholder-gray-400 focus:outline-none  focus:border-black w-full py-0 h-[53px] pr-4 pl-4 mt-0 ml-0 text-base block bg-white border-gray-300" />
+                                                <input onChange={handleFileChange}
+                                                    //  {...register("photoURL", { required: true })} 
+                                                    type="file" className="absolute top-[7.7px] inset-0 opacity-0 z-10 hover:cursor-pointer border placeholder-gray-400 focus:outline-none  focus:border-black w-full py-0 h-[53px] pr-4 pl-4 mt-0 ml-0 text-base block bg-white border-gray-300" />
                                                 <div className="px-4 h-[50.5px] border border-gray-300 relative top-[7.7px] flex items-center ">
                                                     <span className={`text-sm ${selectedFile ? 'text-gray-600' : 'text-gray-400'}`}>{selectedFile ? selectedFile.name : 'Choose a file...'}
                                                     </span>
@@ -203,7 +280,7 @@ const Register = () => {
                                                 {...register("confirmPassword", {
                                                     required: true,
                                                     validate: (value) => value === password || 'Passwords do not match',
-                                                })} 
+                                                })}
                                                 placeholder="Password" id="conPass" className="border placeholder-gray-400 focus:outline-none focus:border-black w-full py-3.5 pr-4 pl-4 mt-2 ml-0 text-base block bg-white  border-gray-300 " />
 
                                             <FaEye onClick={togglePasswordVisibility} className={`${passwordVisible ? 'absolute' : 'hidden'} absolute top-2/4 -translate-y-2 right-4`} />
@@ -220,9 +297,9 @@ const Register = () => {
                                                         data-ripple-dark="true">
                                                         <input type="checkbox"
                                                             {...register("checkbox", { required: true })} name="checkbox"
-                                                            
+
                                                             className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none  border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-[#1e326e] checked:bg-[#1e326e] checked:before:bg-[#1e326e] hover:before:opacity-10"
-                                                            id="checkbox-5"  />
+                                                            id="checkbox-5" />
                                                         <div
                                                             className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
 

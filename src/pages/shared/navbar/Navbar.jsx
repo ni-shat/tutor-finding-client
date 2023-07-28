@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import e from '../../../assets/e1.png'
 import icon from '../../../assets/icon.png'
 import { BiLogIn, BiLogInCircle } from "react-icons/bi";
+import Login from '../../login/Login';
 
 const Navbar3 = () => {
 
@@ -79,18 +80,21 @@ const Navbar3 = () => {
                                 {/* <Link className='flex items-center font-extrabold text-sm border-2 px-4 py-2 border-[#FACF0E] bg-yellow-50 text-black text- shadow-lg shadow-black '>Become A Tutor</Link> */}
                             </ul>
                         </div>
-                        <div className="navbar-end text-base flex gap-4  ">
+                        <div className="navbar-end text-base   ">
                             {/* <Link className='flex items-center font-extrabold text-sm border-2 px-4 py-2 border-[#FACF0E] bg-yellow-50 text-black shadow-lg shadow-black '>Become A Tutor</Link> */}
                             {/* <Link className='flex items-center font-extrabold text-sm border- px-4 py-2  bg-[#FACF0E]  text-black text- shadow-lg shadow-black  '>Become A Tutor</Link> */}
 
-                            {/* bg-[#e7e0c3] */}
-                            <a className="flex items-center gap-1 "> <BiLogInCircle className='text-base ' /> Login</a>
+
+                            <label htmlFor="my-modal-3" className="flex items-center gap-1 hover:text-[#FACF0E] "> <BiLogInCircle className='text-base ' /> Login</label>
+                            <Login></Login>
+
+                            
                         </div>
                     </div>
                 </div>
             </div>
 
-           
+
 
         </div>
     );
