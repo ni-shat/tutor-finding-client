@@ -1,14 +1,27 @@
 import { Link, useLocation } from 'react-router-dom';
 import e from '../../../assets/e1.png'
 import icon from '../../../assets/icon.png'
-import { BiLogIn, BiLogInCircle } from "react-icons/bi";
+import { BiLogOutCircle, BiLogInCircle } from "react-icons/bi";
 import Login from '../../login/Login';
 import { useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../../providers/AuthProvider';
+import { FaUserCircle } from 'react-icons/fa';
 
 const Navbar3 = () => {
 
     const location = useLocation();
-    console.log(location.state);
+    // console.log(location.state);
+
+    // console.log(location)
+    console.log(location.pathname)
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error));
+    }
 
     const navItems = [
         {
@@ -90,18 +103,55 @@ const Navbar3 = () => {
                                 {/* <Link className='flex items-center font-extrabold text-sm border-2 px-4 py-2 border-[#FACF0E] bg-yellow-50 text-black text- shadow-lg shadow-black '>Become A Tutor</Link> */}
                             </ul>
                         </div>
-                        <div className="navbar-end text-base   ">
+
+                        <div className="navbar-end text-base   space-x-3 -mr-[6.15px]">
                             {/* <Link className='flex items-center font-extrabold text-sm border-2 px-4 py-2 border-[#FACF0E] bg-yellow-50 text-black shadow-lg shadow-black '>Become A Tutor</Link> */}
                             {/* <Link className='flex items-center font-extrabold text-sm border- px-4 py-2  bg-[#FACF0E]  text-black text- shadow-lg shadow-black  '>Become A Tutor</Link> */}
 
 
-                            <label htmlFor="my-modal-3" className="flex items-center gap-1 hover:text-[#FACF0E] hover:cursor-pointer "> <BiLogInCircle className='text-base ' /> Login</label>
-                            {
-                                isModalOpen && <Login setModalOpen={setModalOpen} closeModal={closeModal} openModal={openModal}></Login>
-                            
-                            }
-                            
-                            
+
+
+                           
+
+                            <div className='space-y-3 items-center  md:flex md:space-y-0 '>
+                                {
+                                    user ?
+                                        <><label onClick={handleLogOut} htmlFor="my-modal-3" className="flex items-center gap-1 hover:text-[#FACF0E] hover:cursor-pointer "> <BiLogOutCircle className='text-base ' /> Log out</label>
+                                            </>
+                                        :
+                                        <>
+                                            <label htmlFor="my-modal-3" className="flex items-center gap-1 hover:text-[#FACF0E] hover:cursor-pointer "> <BiLogInCircle className='text-base ' /> Login</label>
+                                            {
+                                                isModalOpen && <Login setModalOpen={setModalOpen} closeModal={closeModal} openModal={openModal}></Login>
+
+                                            }
+                                        </>
+                                }
+                            </div>
+                            {user && <span className='hidden w-px h-6 bg-gray-300 md:block'></span>} 
+
+                            <div className='xl:flex flex-col xl:flex-row space-y-3 xl:space-y-0 xl:space-x-5 xl:items-center hidden'>
+                                {
+                                    user && <>
+                                        {
+                                            user.displayName ?
+                                                <div className="tooltip tooltip-bottom  border-[1.8px] hover:cursor-pointer transition-all duration-500 rounded-full hover:border-gray-400" data-tip={user.displayName}>
+                                                    {
+                                                        user.photoURL ? <img className='rounded-full w-8 h-8 object-cover' src={user.photoURL} alt="" />
+                                                            : <FaUserCircle className='w-8 h-8 text-gray-500' />
+                                                    }
+                                                </div> :
+                                                <div className=' border-[1.8px] hover:cursor-pointer transition-all duration-500 rounded-full hover:border-gray-400'>
+                                                    {
+                                                        user.photoURL ? <img className='rounded-full w-8 h-8 object-cover' src={user.photoURL} alt="" />
+                                                            : <FaUserCircle className='w-8 h-8 text-gray-500' />
+                                                    }
+                                                </div>
+                                        }
+                                    </>
+                                }
+                            </div>
+
 
 
                         </div>

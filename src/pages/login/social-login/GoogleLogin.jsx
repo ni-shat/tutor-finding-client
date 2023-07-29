@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 
 const GoogleLogin = ({ modalCheckboxRef }) => {
@@ -28,15 +29,23 @@ const GoogleLogin = ({ modalCheckboxRef }) => {
                 })
                     .then(res => res.json())
                     .then(() => {
-                        modalCheckboxRef.current.checked = false;
-                        navigate(from, { replace: true });
+                        Swal.fire({
+                            position: 'top-middle',
+                            icon: 'success',
+                            title: 'User Login successful.',
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
+                          // closeModal();
+                          modalCheckboxRef.current.checked = false;
+                          navigate(from, { replace: true });
                     })
             })
     }
 
     return (
         <li onClick={handleGoogleSignIn} className="px-2 w-full">
-            <Link href="javascript:void(0)" className="
+            <Link className="
                                flex
                                h-11
                                items-center
