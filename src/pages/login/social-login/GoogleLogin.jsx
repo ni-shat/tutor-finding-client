@@ -10,17 +10,18 @@ const GoogleLogin = ({ modalCheckboxRef }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || "/dashboard/userhome";
+    console.log(from)
 
     const handleGoogleSignIn = () => {
         googleSignIn()
             .then(result => {
                 const loggedInUser = result.user;
                 console.log(loggedInUser);
-                const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email, role: "student", userImage: loggedInUser.photoURL, phone: loggedInUser.phoneNumber }
+                const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email, role: "tutor", userImage: loggedInUser.photoURL, phone: loggedInUser.phoneNumber }
                 console.log(saveUser)
 
-                fetch(`http://localhost:5000/users?email=${user?.email}`, {
+                fetch(`http://localhost:5000/users?email=${loggedInUser.email}`, {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
@@ -35,12 +36,14 @@ const GoogleLogin = ({ modalCheckboxRef }) => {
                             title: 'User Login successful.',
                             showConfirmButton: false,
                             timer: 1500
-                          });
-                          // closeModal();
-                          modalCheckboxRef.current.checked = false;
-                          navigate(from, { replace: true });
+                        });
+                        // closeModal();
+                        navigate(from, { replace: true });
+                        modalCheckboxRef.current.checked = false;
+
                     })
             })
+            .catch(err => console.log(err))
     }
 
     return (

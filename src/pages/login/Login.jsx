@@ -11,7 +11,7 @@ import { BeatLoader } from 'react-spinners';
 import GoogleLogin from './social-login/GoogleLogin';
 import FacebookLogin from './social-login/FacebookLogin';
 
-const Login = ({ closeModal, openModal }) => {
+const Login = ({ openModal }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState("");
@@ -21,7 +21,8 @@ const Login = ({ closeModal, openModal }) => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   console.log(location.state)
 
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/dashboard/userhome";
+  console.log(from)
 
   const modalCheckboxRef = useRef(null);
 
@@ -43,8 +44,7 @@ const Login = ({ closeModal, openModal }) => {
           showConfirmButton: false,
           timer: 1500
         });
-        // closeModal();
-        modalCheckboxRef.current.checked = false;
+        closeModal();
         navigate(from, { replace: true });
       })
       .catch(error => {
@@ -67,6 +67,11 @@ const Login = ({ closeModal, openModal }) => {
       setIsLoading(false);
     }, 1000); // 1 second delay
   };
+
+  const closeModal = () => {
+    modalCheckboxRef.current.checked = false;
+    resetForm();
+  }
 
 
   return (
@@ -174,7 +179,7 @@ const Login = ({ closeModal, openModal }) => {
                       </svg>
                     </a>
                   </li>
-                 <GoogleLogin modalCheckboxRef={modalCheckboxRef}></GoogleLogin>
+                  <GoogleLogin modalCheckboxRef={modalCheckboxRef}></GoogleLogin>
                 </ul>
                 <Link className="
                          text-base
@@ -186,7 +191,9 @@ const Login = ({ closeModal, openModal }) => {
                   Forget Password?
                 </Link>
                 <p className="text-base text-gray-500 font-normal text-center">
-                  Not a member yet? <Link to='/register' className="text-[#1e326e] font-semibold hover:underline"> Sign Up
+                  Not a member yet?
+                  <Link onClick={closeModal} to='/register' className="text-[#1e326e] font-semibold hover:underline">
+                    Sign up
                   </Link>
                 </p>
                 <div>

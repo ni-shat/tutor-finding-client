@@ -11,9 +11,12 @@ import { Helmet } from 'react-helmet-async';
 import { FaAngleDown, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
+import GoogleLogin from '../login/social-login/GoogleLogin';
+import FacebookLogin from '../login/social-login/FacebookLogin';
+import Dropdown from '../../components/Dropdown';
 
 const img_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD_TOKEN;
 
@@ -38,8 +41,8 @@ const Register = () => {
     const onSubmit = data => {
         data['gender'] = selectedItem;
         data['photoURL'] = selectedFile;
-        if (selectedOption === 'As Student') data['role'] = 'Student';
-        else data['role'] = 'Tutor';
+        if (selectedOption === 'As Student') data['role'] = 'student';
+        else data['role'] = 'tutor';
 
         console.log(data)
 
@@ -137,6 +140,8 @@ const Register = () => {
         setSelectedOption(event.target.value);
     };
 
+    const itemArrDropdownGender = ["Male", "Female"];
+
 
 
 
@@ -228,10 +233,17 @@ const Register = () => {
                                                 </p>
 
                                                 {/* dropdown */}
+                                                
                                                 <div className="dropdown dropdown-bottom dropdown-end bg-white  w-full ">
-                                                    <label onClick={toggleDropdown} tabIndex={0} className={` w-full bg-white py-3.5 px-4 mt-2 ml-0 text-sm ${selectedItem ? 'text-gray-600' : 'text-gray-400'} border border-gray-300 focus:outline-none focus:border-black flex justify-between items-center`}>
+
+                                                    <label 
+                                                    onClick={toggleDropdown} 
+                                                    tabIndex={0} 
+                                                    className={` w-full bg-white py-3.5 px-4 mt-2 ml-0 text-sm ${selectedItem ? 'text-gray-600' : 'text-gray-400'} border border-gray-300 focus:outline-none focus:border-black flex justify-between items-center`}>
+
                                                         {selectedItem || 'Choose a gender'}
                                                         <FaAngleDown className="mt-1" />
+                                                        
                                                     </label>
                                                     {isOpen && (
                                                         <ul
@@ -246,6 +258,8 @@ const Register = () => {
                                                         </ul>
                                                     )}
                                                 </div>
+                                                {/* dropdown */}
+
                                             </div>
                                         </div>
 
@@ -336,28 +350,30 @@ const Register = () => {
                                         <div>
                                             <p className='pb-5'>Connect With</p>
                                             <div>
-                                                <ul className="flex justify-between -mx-2 mb-12">
-                                                    <li className="px-2 w-full">
+                                                <ul className="flex justify-between items-center -mx-2 mb-12 ">
+                                                    {/* <li className="px-2 w-full">
                                                         <a
                                                             href="javascript:void(0)"
                                                             className=" flex h-12 items-center justify-center rounded-md bg-[#4064AC] hover:bg-opacity-90 ">
                                                             <img src={fb} alt="" />
                                                         </a>
-                                                    </li>
+                                                    </li> */}
+                                                    <FacebookLogin></FacebookLogin>
                                                     <li className="px-2 w-full">
-                                                        <a
+                                                        <Link
                                                             href="javascript:void(0)"
-                                                            className="flex  h-12 items-center justify-center rounded-md bg-[#1C9CEA]  hover:bg-opacity-90 ">
+                                                            className="flex  h-11 items-center justify-center rounded-md bg-[#1C9CEA]  hover:bg-opacity-90 ">
                                                             <img src={twt} alt="" />
-                                                        </a>
+                                                        </Link>
                                                     </li>
-                                                    <li className="px-2 w-full">
+                                                    <GoogleLogin></GoogleLogin>
+                                                    {/* <li className="px-2 w-full">
                                                         <a
                                                             href="javascript:void(0)"
                                                             className=" flex h-12 items-center justify-center rounded-md   bg-[#D64937]  hover:bg-opacity-90">
                                                             <img src={ggl} alt="" />
                                                         </a>
-                                                    </li>
+                                                    </li> */}
                                                 </ul>
                                             </div>
                                         </div>
