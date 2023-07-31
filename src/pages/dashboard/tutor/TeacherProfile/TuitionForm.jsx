@@ -88,7 +88,7 @@ const TuitionForm = () => {
         setIsOpen(false);
     };
 
-    const itemArrDropdownCategories = ["Bangla Medium", "English Medium", "English Version", "Bangla Version", "Uni Help", "Language Learning", "Madrasha Medium", "IELTS Preparation", "Test Preparation"];
+    const itemArrDropdownCategories = ["Bangla Medium", "English Medium", "English Version", "Uni Help", "Language Learning", "Madrasha Medium", "IELTS Preparation", "Test Preparation"];
 
 
 

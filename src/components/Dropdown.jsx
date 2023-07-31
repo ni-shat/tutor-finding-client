@@ -4,6 +4,8 @@ import { FaAngleDown } from 'react-icons/fa';
 const Dropdown = ({ itemArray, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
+  const [hoveredItem, setHoveredItem] = useState(0);
+  const [isKeyPressing, setIsKeyPressing] = useState(false);
   const [opacity, setOpacity] = useState(true);
   const [searchText, setSearchText] = useState('');
   const dropdownRef = useRef();
@@ -22,6 +24,7 @@ const Dropdown = ({ itemArray, placeholder }) => {
   const handleInputChange = (event) => {
     setSearchText(event.target.value);
     setOpacity(true);
+    setHoveredItem(0)
   };
 
   const handleIconClick = (e) => {
@@ -62,9 +65,80 @@ const Dropdown = ({ itemArray, placeholder }) => {
     (item) => item.toLowerCase().includes(searchText.toLowerCase())
   );
 
+
+
+
+
+
+
+
+
+  const dropdownOptionsRef = useRef();
+
+  const handleMouseEnter = (index) => {
+    // if (!isKeyPressing) {
+      setHoveredItem(index);
+      console.log(hoveredItem)
+    // }
+  };
+
+  // const handleMouseLeave = () => {
+  //   setHoveredItem(null);
+  // };
+ 
+
+  const handleKeys = (event) => {  //it working
+    console.log(event.key)
+    // setIsKeyPressing(true);
+
+    if (event.key === 'ArrowDown') {
+      console.log("arrow down clicked")
+      event.preventDefault();
+      // const currentIndex = filteredItems.findIndex((item) => indexOf(item) === hoveredItem);
+      console.log(filteredItems.indexOf('Uni Help'))
+      const nextIndex = hoveredItem === filteredItems.length - 1 ? 0 : hoveredItem + 1;
+      // Set the next item as the selected item
+      setHoveredItem(nextIndex);
+      console.log(hoveredItem)
+    }
+    else if (event.key === 'ArrowUp') {
+      console.log("arrow up clicked")
+      event.preventDefault();
+      const prevIndex = hoveredItem === 0 ? filteredItems.length - 1 : hoveredItem - 1;
+      setHoveredItem(prevIndex);
+      console.log(hoveredItem)
+    }
+    else if (event.key === 'Enter') {
+      console.log("Enter clicked")
+      event.preventDefault();
+      console.log(filteredItems[hoveredItem]);
+      handleItemClick(filteredItems[hoveredItem])
+    }
+  };
+
+
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', handleOutsideClick);
+
+  //   // Add keydown event listener for handling keyboard events on the dropdown options
+  //   if (dropdownOptionsRef.current) {
+  //     dropdownOptionsRef.current.addEventListener('keydown', handleKeyDown);
+  //   }
+  // }, [])
+
+  // console.log(hoveredItem)
+
+  const onKeyPressed = (e) => {
+    console.log(e.type === 'keydown');
+    console.log(dropdownOptionsRef.current)
+  }
+
+
+
   return (
-    <div className="dropdown dropdown-bottom dropdown-end bg-white w-full mt-2" ref={dropdownRef}>
+    <div  onKeyDown={handleKeys} className="dropdown dropdown-bottom dropdown-end bg-white w-full mt-2" ref={dropdownRef}>
       <div
+       
         tabIndex={0}
         className="flex items-center border border-gray-300 hover:border-black"
         onClick={handleInputClick}
@@ -86,20 +160,27 @@ const Dropdown = ({ itemArray, placeholder }) => {
         </div>
       </div>
 
+      {/* opacity is added to remove the open dropdown after clicking os selecting an item. */}
       {(isOpen || searchText && opacity) && (
+
         <ul
+
           tabIndex={0}
           className="absolute dropdown text-sm text-gray-700  z-30 right-0 border shadow-sm shadow-black bg-base-100 rounded-box overflow-y-auto max-h-60 w-full"
         >
           {filteredItems.map((item, index) => (
             <li
+              onMouseEnter={() => handleMouseEnter(index)}
+              // onMouseLeave={handleMouseLeave}
+              ref={dropdownOptionsRef}
               onClick={() => handleItemClick(item)}
-              className={`py-3 px-4 hover:cursor-pointer hover:bg-blue-100 ${index === 0 ? 'bg-blue-100' : ''}`}
+              className={`py-3 px-4   ${index === hoveredItem ? 'bg-blue-100' : ''}`}
               key={index}>
-              <a>{item}</a>
+              {item}
             </li>
           ))}
         </ul>
+
       )}
     </div>
   );
