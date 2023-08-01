@@ -125,9 +125,9 @@ const Dropdown = ({ itemObject, placeholder, setAllData, allData, propertyName }
     console.log('nishat')
     event.stopPropagation();
     setSearchText(event.target.value);
-    console.log(searchText)
-    setOpacity(true);
-    setHoveredItem(0)
+    // console.log(searchText)
+    setOpacity(true); 
+    setHoveredItem([0, Object.keys(itemObject)[0]])
     // console.log(event.target.value) 
     for (const propertyName in itemObject) {
       objectItems[propertyName] = itemObject[propertyName].filter(item => item.toLowerCase().includes(event.target.value.toLowerCase()));
@@ -145,20 +145,25 @@ const Dropdown = ({ itemObject, placeholder, setAllData, allData, propertyName }
     e.stopPropagation();
     setIsOpen(!isOpen);
     inputRef.current.focus();
-    inputRef.current.focus();
   };
 
 
   const handleOutsideClick = (event) => {
-    const dropdownContainer = dropdownRef.current;
+    // console.log('outside')
+    const dropdownContainer = dropdownRef.current; //if I keep moving mouse, it will execute
+    console.log(dropdownContainer) // it is used in the div
+    console.log(event.target) 
+    console.log(dropdownContainer.contains(event.target))
     if (dropdownContainer && !dropdownContainer.contains(event.target)) {
       const isScrollbarClicked = event.target.classList.contains('overflow-auto');
       // console.log(isScrollbarClicked)
-      const isExcludedElement = event.target.closest('.exclude-dropdown-close');
+      // const isExcludedElement = event.target.closest('.exclude-dropdown-close');
 
-      if (!isScrollbarClicked && !isExcludedElement) {
+      // if (!isScrollbarClicked && !isExcludedElement) {
+      if (!isScrollbarClicked) {
         setIsOpen(false);
-      }
+        setSearchText("") // It solved the problem of opening dropdown box even when clicking outside, if user writes something in the input
+      } 
     }
   };
 
@@ -186,49 +191,15 @@ const Dropdown = ({ itemObject, placeholder, setAllData, allData, propertyName }
   const [focusedIndex, setFocusedIndex] = useState(null);
   const handleKeys = (event) => {  //it working
     console.log(event.key)
-    // setIsKeyPressing(true);
-    // console.log(objectItems)
-    // console.log(Object.keys(objectItems).length)
+    
 
     if (event.key === 'ArrowDown') {
       console.log("arrow down clicked")
       event.preventDefault();
 
-      const totalItems = Object.values(objectItems).reduce((total, current) => total + current.length, 0);
-      console.log(totalItems)
-      console.log(Object.values(objectItems))
-
-      setHoveredItem(
-        prevFocusedIndex => {
-        const totalItems = Object.values(objectItems).reduce(
-          (total, current) => total + current.length, 0 );
-        return (prevFocusedIndex + 1) % totalItems;
-      });
-
-      // if (focusedIndex === null) {
-      //   setFocusedIndex(0);
-      // } else {
-      //   setFocusedIndex( prevFocusedIndex => {
-      //     const totalItems = Object.values(objectItems).reduce(
-      //       (total, current) => total + current.length,
-      //       0
-      //     );
-      //     return (prevFocusedIndex + 1) % totalItems;
-      //   });
-      // }  
-
-
+    
     }
-    else if (event.key === 'ArrowUp') {
-      console.log("arrow up clicked")
-      event.preventDefault();
-
-    }
-    else if (event.key === 'Enter') {
-      console.log("Enter clicked")
-      event.preventDefault();
-
-    }
+   
   };
 
 
