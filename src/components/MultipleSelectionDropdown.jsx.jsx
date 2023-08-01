@@ -1,15 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaAngleDown } from 'react-icons/fa';
 
-
-
-
-// TODO: when clicking in cross I want the dropdown keeps open. DOn't get closed. 
-
-
-
-const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName }) => {
-  
+const MultipleSelectionDropdown = ({ itemArray, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(''); //old
@@ -28,29 +20,15 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
     console.log(item)
 
     const updatedSelectedItems = selectedItems.filter(it => it !== item);
-
-    // set all selected data in parent state
-    const objectTmp = {
-      [propertyName]: [...updatedSelectedItems] 
-    }
-    setAllData( {...allData , ...objectTmp} ); 
-    // end setting all selected data in parent state
-    
     setSelectedItems([...updatedSelectedItems]);
 
     setArrayItems([item, ...arrayItems]);
-    setIsOpen(true)
+
+
   }
 
   const handleItemClick = (item) => {
     console.log(selectedItems.includes(item))
-
-    // set all selected data in parent state
-    const objectTmp = {
-      [propertyName]: [...selectedItems, item] // I have wrap the propertyName in thirdBracket to set property name dynamically. 
-    }
-    setAllData( {...allData , ...objectTmp} ); 
-    // end setting all selected data in parent state
 
     setSelectedItems([...selectedItems, item]);
 
@@ -60,10 +38,9 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
 
 
     // setSelectedItem(""); //old
-    // setIsOpen(false); //old
+    setIsOpen(false);
     setSearchText("");
     setOpacity(!opacity);
-
   };
 
   const handleInputChange = (event) => {
@@ -156,9 +133,7 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
       console.log("Enter clicked")
       event.preventDefault();
       console.log(filteredItems[hoveredItem]);
-      if (filteredItems[hoveredItem]) {
-        handleItemClick(filteredItems[hoveredItem])
-      }
+      handleItemClick(filteredItems[hoveredItem])
     }
   };
 
@@ -190,18 +165,18 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
         onClick={handleInputClick}
       >
         <div className='flex w-full items-center'>
-          <div className=' flex-wrap gap-1.5 flex w-[100%] py-2.5 mt-0.5 px-1'>
+          <div className=' flex-wrap gap-1 flex w-[100%] py-2.5 mt-0.5 px-1'>
             {
               selectedItems.map((item, index) =>
-                <p key={index} className=' text-[13px] w-fit border border-[#1e326e] rounded-full whitespace-nowrap pb-1.5 pt-1 px-2' >{item}
-                  <p onClick={() => handleItemCrossClick(item)} className='text-white hover:cursor-pointer ml-1.5 inline-flex font-semibold  justify-center pb-1 items-center bg-blue-600 rounded-full w-3.5 h-3.5'>x</p>
+                <p key={index} className=' text-[12.5px] w-fit border border-[#1e326e] rounded-full whitespace-nowrap py-1 px-2' >{item}
+                  <p onClick={() => handleItemCrossClick(item)} className='text-white hover:cursor-pointer ml-1.5 inline-flex font-semibold  justify-center pb-0.5 items-center bg-red-500 rounded-full w-3.5 h-3.5'>x</p>
                 </p>
               )
             }
           </div>
           <div className='flex justify-end bg-slate- flex-grow  items-center'>
             <input
-              type="text" 
+              type="text"
               value={searchText}
               onChange={handleInputChange}
               onClick={handleInputClick}
@@ -217,6 +192,7 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
             </div>
           </div>
         </div>
+
       </div>
 
       {/* opacity is added to remove the open dropdown after clicking os selecting an item. */}
@@ -245,4 +221,4 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
   );
 };
 
-export default Dropdown;
+export default MultipleSelectionDropdown;
