@@ -130,7 +130,7 @@ const TuitionForm = () => {
                                 </p>
                                 {/* dropdown */}
                                 <Dropdown inputRef={inputRef} allData={allData} setAllData={setAllData} propertyName={'categories'}
-                                    itemArray={itemArrDropdownCategories} placeholder='Select...'></Dropdown>
+                                    itemObject={itemArrDropdownCategories} placeholder='Select...'></Dropdown>
                                 {/* dropdown */}
                             </div>
                             <div className="w-full">
@@ -138,7 +138,7 @@ const TuitionForm = () => {
                                     <span className="text-red-600 px-1">*</span>
                                 </p>
                                 {/* dropdown */}
-                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'classes'} itemArray={Classes} placeholder='Select...'></Dropdown>
+                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'classes'} itemObject={Classes} placeholder='Select...'></Dropdown>
                                 {/* dropdown */}
                             </div>
 
@@ -151,7 +151,7 @@ const TuitionForm = () => {
                                     <span className="text-red-600 px-1">*</span>
                                 </p>
                                 {/* dropdown */}
-                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'subjects'} itemArray={subjectss} placeholder='Select...'></Dropdown>
+                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'subjects'} itemObject={subjectss} placeholder='Select...'></Dropdown>
                                 {/* dropdown */}
                             </div>
                             <div className="w-2/4">
@@ -159,7 +159,7 @@ const TuitionForm = () => {
                                     <span className="text-red-600 px-1">*</span>
                                 </p>
                                 {/* dropdown */}
-                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'city'} itemArray={itemArrDropdownCategories} placeholder='Select...'></Dropdown>
+                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'city'} itemObject={itemArrDropdownCategories} placeholder='Select...'></Dropdown>
                                 {/* dropdown */}
                             </div>
                         </div>
@@ -169,14 +169,14 @@ const TuitionForm = () => {
                             <div className="w-2/4">
                                 <p className="bg-white pr-2 pl-2 -mt-1.5 ml-2 font-medium text-gray-600 absolute z-10">Your Location
                                 </p>
-                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'location'} itemArray={itemArrDropdownCategories} placeholder='Select...'></Dropdown>
+                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'location'} itemObject={itemArrDropdownCategories} placeholder='Select...'></Dropdown>
                                 {/* dropdown */}
                             </div>
                             <div className="w-2/4">
                                 <p className="bg-white pr-2 pl-2 -mt-1.5 ml-2 font-medium text-gray-600 absolute z-10">Preferred Location
                                     <span className="text-red-600 px-1">*</span>
                                 </p>
-                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'preferredLocation'} itemArray={itemArrDropdownCategories} placeholder='Select...'></Dropdown>
+                                <Dropdown allData={allData} setAllData={setAllData} propertyName={'preferredLocation'} itemObject={itemArrDropdownCategories} placeholder='Select...'></Dropdown>
                             </div>
                         </div>
 
@@ -186,7 +186,7 @@ const TuitionForm = () => {
                                 <p className="bg-white pr-2 pl-2 -mt-1.5 ml-2 font-medium text-gray-600 absolute z-10">Tutoring Options
                                 </p>
                                 <Dropdown allData={allData} setAllData={setAllData} propertyName={'options'}
-                                    itemArray={
+                                    itemObject={
                                         { "options": ["Student Home", "My Home", "Online"] }
                                     }
                                     placeholder='Select...'></Dropdown>

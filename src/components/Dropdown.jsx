@@ -8,48 +8,92 @@ import { FaAngleDown } from 'react-icons/fa';
 
 
 
-const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName }) => {
+const Dropdown = ({ itemObject, placeholder, setAllData, allData, propertyName }) => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState({});
   const [selectedItem, setSelectedItem] = useState(''); //old
-  const [arrayItems, setArrayItems] = useState(itemArray);
-  const [hoveredItem, setHoveredItem] = useState(0);
+  // const [objectItem, setobjectItem] = useState(itemObject);
+  const [objectItems, setObjectItems] = useState(itemObject);
+  const [hoveredItem, setHoveredItem] = useState([0, Object.keys(itemObject)[0]]);
   const [isKeyPressing, setIsKeyPressing] = useState(false);
   const [opacity, setOpacity] = useState(true);
   const [searchText, setSearchText] = useState('');
   const dropdownRef = useRef();
-  const inputRef = useRef(null);  console.log(itemArray)
+  const inputRef = useRef(null);
 
 
-  const handleItemCrossClick = (item) => {
+  const handleItemCrossClick = (key, item) => {
     inputRef.current.focus();
-    const updatedSelectedItems = selectedItems.filter(it => it !== item);
-    // set all selected data in parent state
+    console.log("key, item:", key, item)
+
+    if (key in selectedItems) {
+      selectedItems[key] = selectedItems[key].filter(it => it !== item); // removed item from specific key from selectedItems
+      // console.log(selectedItems[key] )
+    }
+
+    if (key in objectItems) {
+      const tmpArrayValues = objectItems[key];
+      objectItems[key] = [item, ...tmpArrayValues];
+    }
+
+    /********-----OLD APPROACH------ */
+    // const updatedSelectedItems = selectedItems.filter(it => it !== item); //old
+    // setSelectedItems([...updatedSelectedItems]);
+    /********-----OLD APPROACH------ */
+
+    /*/ set all selected data in parent state  // old
     const objectTmp = {
-      [propertyName]: [...updatedSelectedItems]
+      [propertyName]: [...updatedSelectedItems]     
     }
     setAllData({ ...allData, ...objectTmp });
-    // end setting all selected data in parent state
-    setSelectedItems([...updatedSelectedItems]);
-    setArrayItems([item, ...arrayItems]);
-    setIsOpen(true)
+    // end setting all selected data in parent state */
+
+    // setSelectedItems([...updatedSelectedItems]); //old
+    // setObjectItems([item, ...objectItems]); //old
+
   }
 
+  const handleItemClick = (key, item) => {
+    inputRef.current.focus(); console.log(key, item)
 
-  const handleItemClick = (item) => {
-    console.log(inputRef.current)
-    inputRef.current.focus();
-    console.log(document.activeElement === inputRef.current)
-    // set all selected data in parent state
+    /***  / set all selected data in parent state ---------- OLD
     const objectTmp = {
       [propertyName]: [...selectedItems, item] // I have wrap the propertyName in thirdBracket to set property name dynamically. 
     }
     setAllData({ ...allData, ...objectTmp });
-    // end setting all selected data in parent state
-    setSelectedItems([...selectedItems, item]);
-    const filteredArrayItems = arrayItems.filter(it => it !== item);
-    setArrayItems(filteredArrayItems)
+    // end setting all selected data in parent state  *///
+
+    /**setting selected items objects keywise */
+    // console.log(selectedItems)
+    const tmpObj = selectedItems;
+    if (key in tmpObj) {
+      console.log("tmpObj[key]", tmpObj);
+      const temp = [...tmpObj[key]]
+      tmpObj[key] = [...temp, item];
+    } else {
+      tmpObj[key] = [item];
+    }
+    setSelectedItems(tmpObj)
+
+
+    /**************** ------------- OLD
+     * const selectedObjTmp = { key: [...selectedItems, item] }
+       setSelectedItems(selectedObjTmp); console.log("selectedObjTmp", selectedObjTmp)
+     * *** */
+
+    /**END setting selected items objects keywise */
+
+    // setSelectedItems([...selectedItems, item]); //old
+
+    // It updates the object items after selecting an item, thus this item from dropdown gets removed
+    if (key in objectItems) {
+      const filteredArrayValues = objectItems[key].filter(it => it !== item);
+      objectItems[key] = filteredArrayValues;
+    }
+
+    // const filteredobjectItem = objectItems.filter(it => it !== item); //old
+    // setObjectItems(filteredobjectItem) //old
 
     // setSelectedItem(""); //old
     // setIsOpen(false); //old
@@ -57,14 +101,38 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
     setOpacity(!opacity);
   };
 
+  // useEffect(() => {
+  //   let filteredItems = {}; //this functions filters the object based on search text
+  //   //search text filter chalaw shob key er jonno, key hocche property name, and objectItem[key] hocche arrays value oi pperty name er.
+
+
+  // }, [searchText])
+  /***searching works without the below for ! */
+  // for (const propertyName in itemObject) {
+  //   objectItems[propertyName] = itemObject[propertyName].filter(item => item.toLowerCase().includes(searchText.toLowerCase()));
+  // }
+
+
+  // console.log("filteredItems", filteredItems)
+  // setObjectItems(filteredItems);
+  // const filteredItems = objectItem.filter(
+  //   item => item.toLowerCase().includes(searchText.toLowerCase())
+  // );
+
 
 
   const handleInputChange = (event) => {
+    console.log('nishat')
     event.stopPropagation();
     setSearchText(event.target.value);
+    console.log(searchText)
     setOpacity(true);
     setHoveredItem(0)
-    console.log(event.target.value)
+    // console.log(event.target.value) 
+    for (const propertyName in itemObject) {
+      objectItems[propertyName] = itemObject[propertyName].filter(item => item.toLowerCase().includes(event.target.value.toLowerCase()));
+    }
+    // setObjectItems(tmpObj)
   };
 
   const handleIconClick = (e) => {
@@ -77,7 +145,7 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
     e.stopPropagation();
     setIsOpen(!isOpen);
     inputRef.current.focus();
-     inputRef.current.focus();
+    inputRef.current.focus();
   };
 
 
@@ -102,71 +170,67 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
   }, []);
 
 
-  const [objectItems, setObjectItems] = useState({}); // that's my title of dropdown items
-
-  useEffect(() => {
-    let filteredItems = {};
-    //search text filter chalaw shob key er jonno, key hocche property name, and arrayItems[key] hocche arrays value oi pperty name er.
-    for (const propertyName in arrayItems) {
-      filteredItems[propertyName] = arrayItems[propertyName].filter(item => item.toLowerCase().includes(searchText.toLowerCase()));
-    }
-    console.log("filteredItems", filteredItems)
-    setObjectItems(filteredItems);
-    // const filteredItems = arrayItems.filter(
-    //   item => item.toLowerCase().includes(searchText.toLowerCase())
-    // );
-
-  }, [searchText])
-
-  // console.log(objectItems)
-  // console.log(searchText)
-
 
   const dropdownOptionsRef = useRef();
 
-  const handleMouseEnter = (index) => {
+  const handleMouseEnter = (index, key) => {
     // if (!isKeyPressing) {
-    setHoveredItem(index);
+      console.log("index", index)
+    setHoveredItem([index, key]);
     // }
   };
   // const handleMouseLeave = () => {
   //   setHoveredItem(null);
   // };
 
-  
+  const [focusedIndex, setFocusedIndex] = useState(null);
   const handleKeys = (event) => {  //it working
-    // console.log(event.key)
+    console.log(event.key)
     // setIsKeyPressing(true);
+    // console.log(objectItems)
+    // console.log(Object.keys(objectItems).length)
 
     if (event.key === 'ArrowDown') {
       console.log("arrow down clicked")
       event.preventDefault();
-      // const currentIndex = filteredItems.findIndex((item) => indexOf(item) === hoveredItem);
-      console.log(filteredItems.indexOf('Uni Help'))
-      const nextIndex = hoveredItem === filteredItems.length - 1 ? 0 : hoveredItem + 1;
-      // Set the next item as the selected item
-      setHoveredItem(nextIndex);
-      console.log(hoveredItem)
+
+      const totalItems = Object.values(objectItems).reduce((total, current) => total + current.length, 0);
+      console.log(totalItems)
+      console.log(Object.values(objectItems))
+
+      setHoveredItem(
+        prevFocusedIndex => {
+        const totalItems = Object.values(objectItems).reduce(
+          (total, current) => total + current.length, 0 );
+        return (prevFocusedIndex + 1) % totalItems;
+      });
+
+      // if (focusedIndex === null) {
+      //   setFocusedIndex(0);
+      // } else {
+      //   setFocusedIndex( prevFocusedIndex => {
+      //     const totalItems = Object.values(objectItems).reduce(
+      //       (total, current) => total + current.length,
+      //       0
+      //     );
+      //     return (prevFocusedIndex + 1) % totalItems;
+      //   });
+      // }  
+
+
     }
     else if (event.key === 'ArrowUp') {
       console.log("arrow up clicked")
       event.preventDefault();
-      const prevIndex = hoveredItem === 0 ? filteredItems.length - 1 : hoveredItem - 1;
-      setHoveredItem(prevIndex);
-      console.log(hoveredItem)
+
     }
     else if (event.key === 'Enter') {
       console.log("Enter clicked")
       event.preventDefault();
-      console.log(filteredItems[hoveredItem]);
-      if (filteredItems[hoveredItem]) {
-        handleItemClick(filteredItems[hoveredItem])
-      }
+
     }
   };
 
-  const itemArrDropdownCategories =
-    ["Bangla Medium", "English Medium", "English Version", "Uni Help", "Language Learning", "Madrasha Medium", "IELTS Preparation", "Test Preparation"]
 
 
   return (
@@ -180,22 +244,34 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
         <div className='flex w-full items-center '>
           <div className=' flex-wrap gap-1.5 flex w-[100%] py-2.5 mt-0.5 px-1'>
             {
-              selectedItems.map((item, index) =>
-                <p key={index} className=' text-[13px] w-fit border border-[#1e326e] rounded-full whitespace-nowrap pb-1.5 pt-1 px-2' >{item}
-                  <p onClick={() => handleItemCrossClick(item)} className='text-white hover:cursor-pointer ml-1.5 inline-flex font-semibold  justify-center pb-1 items-center bg-blue-600 rounded-full w-3.5 h-3.5'>x</p>
-                </p>
-              )
+              // selectedItems.map((item, index) =>
+              //   <p key={index} className=' text-[13px] w-fit border border-[#1e326e] rounded-full whitespace-nowrap pb-1.5 pt-1 px-2' >{item}
+              //     <p onClick={() => handleItemCrossClick(item)} className='text-white hover:cursor-pointer ml-1.5 inline-flex font-semibold  justify-center pb-1 items-center bg-blue-600 rounded-full w-3.5 h-3.5'>x</p>
+              //   </p>
+              // )
+              Object.entries(selectedItems).map(([key, value]) => (
+                <>
+                  {
+                    value.map((item, index) => (
+                      <p key={index} className=' text-[13px] w-fit border border-[#1e326e] rounded-full whitespace-nowrap pb-1.5 pt-1 px-2' >{item}
+                        <p onClick={() => handleItemCrossClick(key, item)} className='text-white hover:cursor-pointer ml-1.5 inline-flex font-semibold  justify-center pb-1 items-center bg-blue-600 rounded-full w-3.5 h-3.5'>x</p>
+                      </p>
+                    ))
+                  }
+
+                </>
+              ))
             }
             {/* <div className=''> */}
-              <input
-                type="text"  ref={inputRef}
-                value={searchText}
-                onChange={handleInputChange}
-                onClick={handleInputClick}
-                placeholder={'Select...        '}
-                className={`hover:cursor-default focus:outline-0 bg--100 pb-1.5 pt-1 pl-2 ml-0 text-sm ${selectedItems ? 'text-gray-600' : 'text-gray-400'
-                  } flex justify-between items-center`}
-              />
+            <input
+              type="text" ref={inputRef}
+              value={searchText}
+              onChange={handleInputChange}
+              onClick={handleInputClick}
+              placeholder={'Select...        '}
+              className={`hover:cursor-default focus:outline-0 bg--100 pb-1.5 pt-1 pl-2 ml-0 text-sm ${selectedItems ? 'text-gray-600' : 'text-gray-400'
+                } flex justify-between items-center`}
+            />
 
             {/* </div> */}
           </div>
@@ -235,11 +311,11 @@ const Dropdown = ({ itemArray, placeholder, setAllData, allData, propertyName })
 
                   value.map((item, index) => (
                     <li
-                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseEnter={() => handleMouseEnter(index, key)}
                       // onMouseLeave={handleMouseLeave}
                       ref={dropdownOptionsRef}
-                      onClick={() => handleItemClick(item)}
-                      className={`py-3 px-4   ${index === hoveredItem ? 'bg-blue-100' : ''}`}
+                      onClick={() => handleItemClick(key, item)}
+                      className={`py-3 px-4   ${(index === hoveredItem[0] && key === hoveredItem[1]) ? 'bg-blue-100' : ''}`}
                       key={index}>
                       {item}
                     </li>
