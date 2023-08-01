@@ -117,6 +117,7 @@ const Navbar = () => {
     };
 
     if(loading) {
+        console.log("Loadin")
        return <BeatLoader className='absolute top-2/4 -translate-y-2.5 right-20 ' color="#1e326e" />
     }
 

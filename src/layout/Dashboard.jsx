@@ -21,9 +21,9 @@ const Dashboard = () => {
     const [isStudent] = useStudent();
     const [isTeacher] = useTeacher();
 
-    console.log("istutor", isTeacher)
-    console.log("isstudent", isStudent)
-    console.log("isadmin", isAdmin)
+    // console.log("istutor", isTeacher)
+    // console.log("isstudent", isStudent)
+    // console.log("isadmin", isAdmin)
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {

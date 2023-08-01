@@ -1,0 +1,17 @@
+
+    {
+        "englishVersion": ["Pre-Schooling"," Play", "Nursery", "KG", "Class 1", "Class 2", "Class 3", "Class 4", "Class 5", "Class 6", "Class 7" , "Class 8" , "Class 9" , "Class 10"  , "HSC 1st year", "HSC 2nd year"],
+
+        "banglaMedium": ["Pre-Schooling"," Play", "Nursery", "KG", "Class 1", "Class 2", "Class 3", "Class 4", "Class 5", "Class 6", "Class 7" , "Class 8" , "Class 9" , "Class 10"  , "HSC 1st year", "HSC 2nd year"],
+        
+        "englishMedium": ["Pre-Schooling"," Play", "Nursery", "KG", "Standard 1", "Standard 2", "Standard 3", "Standard 4", "Standard 5", "Standard 6", "Standard 7" , "Standard 8" , "Standard 9"  , "O level", "A Level(AS)", "A Level(A2)"],
+
+        "admissionTest": ["Public University Admission Test", "Private University Admission Test" , "Medical College Admission Test", "Engineering University Admission Test", "School Admission Test"],
+
+        "testPreparation": ["Bank Job Preparation", "IELTS", "GED", "SAT", "GRE", "GMAT", "TOEFL"],
+
+        "languageLearning": ["English", "Arabic", "French", "German"],
+
+        "uniHelp": ["BBA", "MBBS"]
+
+    }
